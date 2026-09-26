@@ -1,0 +1,96 @@
+{
+  "status": "SINGLE-COUNTRY SEIRD STATUS: GO",
+  "country_selection": {
+    "country": "United Kingdom",
+    "reason": "Selected before fitting because it has 2,434 daily rows, 2,426 non-missing smoothed-case days, 2,309 valid Rt estimates, mortality eligibility, and a continuous valid-Rt segment from 2020-03-10."
+  },
+  "period": {
+    "start": "2020-03-10 00:00:00",
+    "end": "2021-12-31 00:00:00",
+    "split_date": "2021-08-21 00:00:00",
+    "calibration_rows": 529,
+    "validation_rows": 133
+  },
+  "parameters": {
+    "sigma": 0.19607843137254904,
+    "gamma": 0.125,
+    "mu": 0.0008304811757600161,
+    "incubation_days": 5.1,
+    "infectious_recovery_days": 8.0,
+    "beta_formula": "beta(t)=Rt_estimated(t)*(gamma+mu)",
+    "intervention_coefficients_used": false
+  },
+  "initial_conditions": {
+    "initialization": "E0=sum observed new_cases_smoothed over preceding incubation+infectious window; I0=sum over preceding infectious window; D0=observed total_deaths; R0=observed total_cases-E0-I0-D0; S0=population-E0-I0-R0-D0",
+    "observed_case_proxy_limitation": "Confirmed cases are an observed surveillance proxy, not true infections; R0 and S0 inherit under-ascertainment and reporting limitations.",
+    "rows_before_start": 69,
+    "S0": 68178813.0,
+    "E0": 13.428571699999999,
+    "I0": 206.85714000000002,
+    "R0": 270.71428829999996,
+    "D0": 11.0
+  },
+  "metrics": {
+    "calibration_cases": {
+      "n": 529,
+      "mae": 11937.543603412561,
+      "rmse": 18226.91056550362,
+      "correlation": 0.9301073545808883
+    },
+    "validation_cases": {
+      "n": 133,
+      "mae": 47541.683680564885,
+      "rmse": 54410.55923058267,
+      "correlation": 0.6714296989237811
+    },
+    "calibration_deaths": {
+      "n": 529,
+      "mae": 296.5188065597398,
+      "rmse": 478.50073928236174,
+      "correlation": 0.3907947897718326
+    },
+    "validation_deaths": {
+      "n": 133,
+      "mae": 136.58550688120863,
+      "rmse": 137.73457746743134,
+      "correlation": 0.02161146514388123
+    },
+    "validation_peak": {
+      "observed_peak_date": "2021-12-31",
+      "simulated_peak_date": "2021-12-31",
+      "peak_date_error_days": 0.0,
+      "observed_peak_magnitude": 166404.14,
+      "simulated_peak_magnitude": 646.9885806581195,
+      "peak_size_error": -165757.15141934188
+    }
+  },
+  "pattern_assessment": {
+    "cases": "Partial reproduction of validation timing and shape; validation correlation is positive but peak magnitude is substantially under-simulated.",
+    "deaths": "Weak reproduction of validation death trajectory; validation correlation is low.",
+    "interpretation": "The solver and calibration procedure are reproducible, but this fixed-beta replay is not an accurate quantitative forecast of the validation period."
+  },
+  "sanity_tests": {
+    "nonnegative_compartments": true,
+    "population_conserved": true,
+    "deaths_non_decreasing": true,
+    "recoveries_non_decreasing": true,
+    "zero_initial_infection_no_spontaneous_infection": true,
+    "higher_beta_increases_transmission": true,
+    "higher_gamma_changes_duration": true,
+    "sigma_changes_exposure_timing": true,
+    "solver_stable": true
+  },
+  "limitations": [
+    "Observed confirmed cases are surveillance proxies, not true infections.",
+    "R0/E0/I0 initialization uses observed smoothed incidence windows and inherits reporting under-ascertainment.",
+    "The 8-day infectious/recovery period is an explicit operational assumption anchored to viable-virus evidence.",
+    "The IFR and competing-hazard mu are early-pandemic evidence and not country/variant-specific.",
+    "Validation beta is held at the calibration-period median; no future Rt or intervention model is used."
+  ],
+  "plots": [
+    "outputs\\seird_plots\\observed_vs_simulated.png",
+    "outputs\\seird_plots\\compartments.png",
+    "outputs\\seird_plots\\sensitivity_infections.png"
+  ],
+  "classification": "Observed OWID series remain separate from simulated compartments and incidence/deaths."
+}

@@ -1,0 +1,105 @@
+{
+  "status": "ALPHA STATUS: SENSITIVITY ONLY",
+  "identifiability_assessment": {
+    "is_empirically_identifiable": false,
+    "classification": "ALPHA: NOT EMPIRICALLY IDENTIFIABLE FROM APPROVED DATA",
+    "reason": "Approved datasets supply only static flight route records (carrier arcs) and country populations. They contain zero passenger counts, zero travel frequencies, zero per-capita mobility rates, and zero infected passenger numbers. Alpha is collinear with unobserved passenger flux and interchangeable with local beta adjustments.",
+    "retraction": "The previous classification 'FULLY IDENTIFIABLE & IMPLEMENTABLE' is explicitly RETRACTED. The mathematical formulation is computationally evaluable under explicit assumptions, but alpha CANNOT be empirically estimated or identified from the approved data."
+  },
+  "distinctions": {
+    "1_route_connectivity_information": {
+      "variables": "C_ij (route count), P_ij (outbound normalized route share)",
+      "source": "OpenFlights cleaned_routes.csv / cleaned_airports.csv",
+      "status": "AVAILABLE",
+      "nature": "Topological structure of scheduled air network; dimensionless branching probabilities."
+    },
+    "2_human_mobility_information": {
+      "variables": "V_ij (passengers/day), theta_i (per-capita daily travel probability)",
+      "source": "None provided in project",
+      "status": "BLOCKED - REQUIRED INPUT NOT AVAILABLE",
+      "nature": "Physical volume of human bodies traversing borders per unit time."
+    },
+    "3_infection_importation_rate": {
+      "variables": "Phi_ij^I(t) = V_ij * (I_i / N_i) (infected persons/day)",
+      "source": "None provided in project",
+      "status": "BLOCKED - REQUIRED INPUT NOT AVAILABLE",
+      "nature": "Absolute physical flux of infectious individuals crossing national borders."
+    },
+    "4_international_coupling_strength": {
+      "variables": "alpha_j in [0, 1) (dimensionless hazard partition weight)",
+      "source": "Model-specific mathematical coupling parameter",
+      "status": "SENSITIVITY PARAMETER ONLY (NOT EMPIRICALLY IDENTIFIABLE)",
+      "nature": "Fraction of transmission hazard attributable to international contact vs domestic contact."
+    }
+  },
+  "project_plan_audit": {
+    "search_results": {
+      "alpha": 0,
+      "coupling strength": 0,
+      "international transmission coefficient": 0,
+      "mobility coefficient": 0,
+      "travel rate": 0,
+      "importation rate": 0
+    },
+    "conclusion": "No explicit definition, formula, or numerical value exists in Plan.pdf for alpha, coupling strength, international transmission coefficient, mobility coefficient, travel rate, or importation rate."
+  },
+  "mathematical_gauge_freedom_test": {
+    "alpha_A": 0.01,
+    "alpha_B": 0.05,
+    "lambda_A": 0.00049625,
+    "beta_B_compensating": 0.25779220779220774,
+    "lambda_B": 0.00049625,
+    "lambda_difference": 0.0,
+    "gauge_freedom_verified": true
+  },
+  "sensitivity_framework": {
+    "design_table": "alpha_sensitivity_design.csv",
+    "scenarios": [
+      {
+        "scenario_id": "SCEN_0_DECOUPLED",
+        "scenario_name": "Decoupled Baseline (Isolated)",
+        "alpha_symbolic": "0.0",
+        "alpha_numerical_benchmark": 0.0,
+        "mathematical_definition": "lambda_j(t) = beta_j(t) * (I_j(t) / N_j)",
+        "epidemiological_meaning": "Zero international transmission hazard; exact single-country SEIRD mechanics v2 baseline.",
+        "status_in_data": "IDENTIFIABLE (Reduces to validated single-country model)",
+        "requires_operational_assumption": false,
+        "claim_represents_real_travel": false
+      },
+      {
+        "scenario_id": "SCEN_1_LOW_COUPLING",
+        "scenario_name": "Low International Coupling",
+        "alpha_symbolic": "alpha_low",
+        "alpha_numerical_benchmark": 0.001,
+        "mathematical_definition": "lambda_j(t) = beta_j(t) * [ 0.999 * (I_j/N_j) + 0.001 * Psi_j ]",
+        "epidemiological_meaning": "0.1% of effective transmission hazard originates from international flight connectivity; high border friction / low traveler mixing.",
+        "status_in_data": "SENSITIVITY ONLY (Unobserved in data)",
+        "requires_operational_assumption": true,
+        "claim_represents_real_travel": false
+      },
+      {
+        "scenario_id": "SCEN_2_MODERATE_COUPLING",
+        "scenario_name": "Moderate International Coupling",
+        "alpha_symbolic": "alpha_med",
+        "alpha_numerical_benchmark": 0.01,
+        "mathematical_definition": "lambda_j(t) = beta_j(t) * [ 0.99 * (I_j/N_j) + 0.01 * Psi_j ]",
+        "epidemiological_meaning": "1.0% of effective transmission hazard originates from international flight connectivity; typical air travel connectivity benchmark.",
+        "status_in_data": "SENSITIVITY ONLY (Unobserved in data)",
+        "requires_operational_assumption": true,
+        "claim_represents_real_travel": false
+      },
+      {
+        "scenario_id": "SCEN_3_HIGH_COUPLING",
+        "scenario_name": "High International Coupling",
+        "alpha_symbolic": "alpha_high",
+        "alpha_numerical_benchmark": 0.05,
+        "mathematical_definition": "lambda_j(t) = beta_j(t) * [ 0.95 * (I_j/N_j) + 0.05 * Psi_j ]",
+        "epidemiological_meaning": "5.0% of effective transmission hazard originates from international flight connectivity; major international transit hubs / high importation stress.",
+        "status_in_data": "SENSITIVITY ONLY (Unobserved in data)",
+        "requires_operational_assumption": true,
+        "claim_represents_real_travel": false
+      }
+    ],
+    "operational_rule": "Numerical scenario benchmarks (0.0, 0.001, 0.01, 0.05) are operational sensitivity assumptions for comparative analysis; they must NOT be claimed to represent measured real-world travel."
+  }
+}

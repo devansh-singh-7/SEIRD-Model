@@ -1,0 +1,159 @@
+{
+  "status": "CALIBRATION METHOD: REQUIRES REVISION",
+  "scope": {
+    "country": "United Kingdom",
+    "raw_owid_modified": false,
+    "excluded": [
+      "airport routes",
+      "OpenFlights",
+      "mobility data",
+      "VIW_FNT",
+      "intervention coefficients",
+      "external datasets"
+    ]
+  },
+  "chronological_design": {
+    "calibration_start": "2020-03-10",
+    "calibration_end": "2021-08-20",
+    "validation_start": "2021-08-21",
+    "validation_end": "2021-12-31",
+    "calibration_rows": 529,
+    "validation_rows": 133,
+    "validation_beta_future_information_used": false,
+    "note": "Rt-derived beta was contemporaneous in calibration; the held-out period used only the calibration median beta. The Rt estimator uses incidence on t and prior incidence, so it is retrospective/nowcast input rather than an independently available future forecast covariate."
+  },
+  "initial_conditions_and_population": {
+    "population_definition": "OWID United Kingdom population, 68,179,315 people; compartments are absolute people and conserve this total.",
+    "initial_conditions": {
+      "S0": 68178813.0,
+      "E0": 13.428571699999999,
+      "I0": 206.85714000000002,
+      "R0": 270.71428829999996,
+      "D0": 11.0
+    },
+    "non_susceptible_initial_total": 502.0,
+    "reported_cumulative_cases_implicit_in_initialisation": 502.0,
+    "finding": "The initialization equates the non-susceptible history to reported cumulative cases. This is internally population-conserving, but it treats reported confirmed infections as the total infection history and therefore inherits under-ascertainment. It is not a defensible estimate of true S/E/I/R/D without a reporting model."
+  },
+  "beta_construction": {
+    "implemented_equations": "dI/dt=sigma*E-(gamma+mu)*I; dR/dt=gamma*I; dD/dt=mu*I",
+    "implemented_formula": "beta(t)=Rt_estimated(t)*(gamma+mu)",
+    "removal_rate_per_day": 0.12583048117576,
+    "calibration_identity_max_abs_error": 9.71445146547012e-17,
+    "fixed_validation_beta_per_day": 0.129452675096114,
+    "fixed_validation_beta_over_removal_rate": 1.0287862995238373,
+    "calibration_beta_range_per_day": {
+      "min": 0.0877196146483981,
+      "median": 0.129452675096114,
+      "max": 0.4893280987571904
+    },
+    "validation_observed_Rt_for_audit_only": {
+      "min": 0.8401480352339078,
+      "median": 1.0582094806063609,
+      "max": 1.492410535099159
+    },
+    "finding": "The numeric identity is exact for the beta values recorded in calibration. However, a renewal-ratio Rt estimated from incidence is an effective reproduction number. For these equations Reff(t)=beta(t)*S(t)/[N*(gamma+mu)], so beta=Rt*(gamma+mu) is exact only when Rt is defined for a fully susceptible population (or S/N is approximately one). An effective Rt input requires beta(t)=Rt(t)*(gamma+mu)*N/S(t), with an explicit decision about how susceptibility, vaccination, reinfection, and reporting are represented.",
+    "date_alignment_finding": "The ODE step ending on date t uses betas[t-1], while new_infections_simulated and the beta column on date t use betas[t]. Thus the stored daily flow is not the integrated flow for the state transition that produced that date's state. This one-day alignment issue must be corrected before a calibrated fit is accepted."
+  },
+  "Rt_smoothing_availability_and_leakage": {
+    "estimator_input": "OWID new_cases_smoothed, used as current incidence at t and prior incidence in a Cori renewal ratio with a discretised gamma serial interval (mean 5 days, SD 2 days).",
+    "missing_Rt_estimated_in_selected_period": {
+      "calibration": 0,
+      "validation": 0
+    },
+    "missing_data_handling": "No Rt values were imputed; the selected run would have stopped if any selected-period Rt_estimated value were unavailable.",
+    "future_information_check": "The renewal-ratio code uses incidence at t and earlier dates only. It therefore does not index an Rt value dated after the transition it informs. However, temporal causality of the upstream supplied 7-day-smoothed field itself must be documented (trailing versus centred smoothing) before describing the resulting Rt as a real-time input.",
+    "finding": "Smoothing reduces reporting noise but can dampen peaks and delay changes. Combining a contemporaneous, smoothed Rt-derived beta in calibration with observed cases as the score target is a retrospective replay design, not an out-of-sample transmission forecast."
+  },
+  "magnitude_mismatch": {
+    "validation_case_rmse": 54410.55923058267,
+    "validation_case_correlation": 0.6714296989237811,
+    "validation_peak_date_error_days": 0.0,
+    "validation_peak_size_error_cases": -165757.15141934188,
+    "finding": "The zero-day peak-date error is not evidence of quantitative agreement: both validation maxima occur at the right boundary (2021-12-31), while simulated peak incidence is 646.99 versus 166,404.14 observed. Holding beta at its calibration median removes the large time variation seen in Rt, and the direct infection-to-confirmed-case comparison supplies no ascertainment scale or reporting delay."
+  },
+  "observation_model": {
+    "current_comparison": "simulated new infections versus OWID new_cases_smoothed",
+    "verdict": "not mathematically direct",
+    "required_case_mapping": "Observed confirmed cases at date t should be modelled as an observation process, e.g. reported_cases(t) approximately ascertainment(t) times delayed simulated incident infections, with a documented reporting-delay distribution and any smoothing applied consistently.",
+    "available_data_decision": "The supplied data contain reported cases and testing fields but no validated, country-date ascertainment probability or reporting-delay distribution. A free reporting factor would be an additional empirical nuisance parameter, not an observed fact; it cannot be silently assumed. Consequently direct case fitting is not currently an admissible epidemiological calibration."
+  },
+  "deaths": {
+    "implemented_mortality_interpretation": "mu is the I-to-D competing hazard and IFR=mu/(gamma+mu); model daily deaths are mu*I and cumulative deaths are D.",
+    "appropriate_primary_comparison": "daily observed deaths (with the same 7-day smoothing only if it is also applied to simulated daily death flow) versus same-date simulated daily I-to-D flow, after any explicit death-reporting delay is specified. Cumulative deaths may be supplementary but are not a replacement for daily trajectory validation.",
+    "same_day_daily_metrics": {
+      "n": 133,
+      "mae": 136.58550688120863,
+      "rmse": 137.73457746743134,
+      "correlation": 0.021611465143881247
+    },
+    "cumulative_death_metrics_supplementary_only": {
+      "n": 133,
+      "mae": 9141.500073712607,
+      "rmse": 10636.10121625611,
+      "correlation": 0.9990241677260199
+    },
+    "best_correlation_in_plus_minus_30_day_lag_scan_diagnostic_only": {
+      "lag_days_simulation_relative_to_observation": -30,
+      "n": 103,
+      "mae": 139.82385756685758,
+      "rmse": 141.04747929563263,
+      "correlation": 0.4709263663670703
+    },
+    "finding": "No unmodelled lag was adopted to improve the score. The SEIRD E-to-I-to-D progression already creates biological timing; a reporting lag would require evidence and an observation model. The low daily-death correlation is robust evidence that current mortality timing/scale and the reported-death observation process are not represented adequately."
+  },
+  "calibration_strategy": {
+    "A_fixed_beta_replay": "Retain only as a reproducible mechanistic replay/diagnostic baseline, not a successful forecast.",
+    "B_formal_fit": "The project plan calls for transmission rates fitted from historical case curves, so a formal, restricted fit is justified in principle. It must first define an observation model and correct beta/date alignment. Then fit only the project-allowed transmission quantity (for example a low-dimensional beta multiplier) using calibration dates only; keep sigma, gamma, and mu sourced rather than freely fitting all parameters; freeze the result for validation.",
+    "current_decision": "Strategy B metrics are deliberately unavailable rather than fabricated because no approved observation model makes reported cases a direct target for infections. Validation observations must not be used to resolve this."
+  },
+  "sensitivity_analysis": [
+    {
+      "scenario": "PRIMARY",
+      "incubation_period_days": 5.1,
+      "sigma_per_day": 0.196078431372549,
+      "infectious_recovery_period_days": 8.0,
+      "gamma_per_day": 0.125,
+      "ifr_probability": 0.0066,
+      "mu_per_day": 0.00083048117576,
+      "beta_calibration_median": 0.129452675096114,
+      "validation_cases_rmse": 54410.55923058267,
+      "validation_deaths_rmse": 137.73457746743134,
+      "classification": "simulated sensitivity scenario"
+    },
+    {
+      "scenario": "LOWER_DURATION_HIGH_RATE",
+      "incubation_period_days": 3.42,
+      "sigma_per_day": 0.2923976608187134,
+      "infectious_recovery_period_days": 5.16,
+      "gamma_per_day": 0.193798449612403,
+      "ifr_probability": 0.0039,
+      "mu_per_day": 0.0007587731688468,
+      "beta_calibration_median": 0.200157805270757,
+      "validation_cases_rmse": 52045.8707581725,
+      "validation_deaths_rmse": 129.02409587184167,
+      "classification": "simulated sensitivity scenario"
+    },
+    {
+      "scenario": "UPPER_DURATION_LOW_RATE",
+      "incubation_period_days": 6.57,
+      "sigma_per_day": 0.15220700152207,
+      "infectious_recovery_period_days": 9.0,
+      "gamma_per_day": 0.1111111111111111,
+      "ifr_probability": 0.0133,
+      "mu_per_day": 0.001497697149871,
+      "beta_calibration_median": 0.1158503991446052,
+      "validation_cases_rmse": 54653.10887997438,
+      "validation_deaths_rmse": 137.50459632425662,
+      "classification": "simulated sensitivity scenario"
+    }
+  ],
+  "sensitivity_finding": "All three evidence-based scenarios retain very large validation case RMSEs (52,045.87 to 54,653.11) and death RMSEs (129.02 to 137.73) under the same invalid direct observation comparison and fixed-beta validation design. The mismatch is therefore robust to the supplied parameter scenarios; these results do not justify changing mortality or duration parameters to improve fit.",
+  "required_before_expansion": [
+    "Correct the beta/state/date alignment and state whether Rt is effective or fully susceptible.",
+    "Approve and document a case and death observation model, including whether/why ascertainment and reporting delays can be estimated from available data.",
+    "Define the small, project-allowed fitted parameter set and objective before fitting; do not fit all epidemiological rates independently.",
+    "Fit calibration dates only, freeze parameters, and re-evaluate the unchanged chronological validation period with daily and supplementary cumulative death metrics.",
+    "Do not expand to all countries or run the airport/mobility component until this gate passes."
+  ]
+}

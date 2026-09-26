@@ -1,0 +1,103 @@
+{
+  "status": "SEIRD MECHANICS STATUS: GO",
+  "scope": "Mechanical consistency only; no parameter optimisation, observation-model fitting, mobility, intervention coefficients, external datasets, or raw-OWID modification.",
+  "time_convention": "Each row t after initialization is the interval-end state after [t-1,t]. The same beta scalar is used for the transition and recorded integrated flows: infections=S(t-1)-S(t), deaths=D(t)-D(t-1).",
+  "Rt_beta_interpretation": {
+    "R0": "beta/(gamma+mu) at full susceptibility",
+    "Reff": "beta*S/[N*(gamma+mu)]",
+    "Rt_estimated": "Cori renewal-ratio estimate treated as Reff only during calibration",
+    "beta": "calibration beta(t)=Rt_estimated(t)*(gamma+mu)*N/S(t-1), held over [t-1,t]; validation beta is calibration-only median."
+  },
+  "parameters": {
+    "sigma": 0.19607843137254904,
+    "gamma": 0.125,
+    "mu": 0.0008304811757600161,
+    "population": 68179315.0,
+    "calibration_median_beta": 0.12957070445482965
+  },
+  "initial_conditions": {
+    "initialization": "E0 and I0 are reported-case windows; D0 is reported cumulative deaths; R0 is residual reported cumulative cases.",
+    "limitation": "These are surveillance proxies, not identified true infection compartments.",
+    "S0": 68178813.0,
+    "E0": 13.428571699999999,
+    "I0": 206.85714000000002,
+    "R0": 270.71428829999996,
+    "D0": 11.0
+  },
+  "mechanics_tests": {
+    "nonnegative_compartments": true,
+    "population_accounting": true,
+    "no_spontaneous_infection": true,
+    "monotonic_death_accumulation": true,
+    "beta_alignment": true,
+    "Rt_Reff_relationship": true,
+    "consistent_time_indexing": true,
+    "numerical_stability": true,
+    "max_beta_alignment_error": 0.0,
+    "max_infection_balance_error": 0.0,
+    "max_Rt_Reff_error": 4.440892098500626e-16
+  },
+  "comparability": [
+    {
+      "model_quantity": "Simulated incident infections",
+      "OWID_quantity": "reported confirmed new cases",
+      "status": "NOT IDENTIFIABLE",
+      "reason": "No approved ascertainment or reporting-delay observation model."
+    },
+    {
+      "model_quantity": "Simulated I prevalence",
+      "OWID_quantity": "reported confirmed new cases",
+      "status": "NOT IDENTIFIABLE",
+      "reason": "Prevalence and incident reports differ."
+    },
+    {
+      "model_quantity": "Cumulative simulated infections (N-S)",
+      "OWID_quantity": "reported cumulative confirmed cases",
+      "status": "NOT IDENTIFIABLE",
+      "reason": "Cumulative confirmed cases do not identify cumulative infections without ascertainment."
+    },
+    {
+      "model_quantity": "Simulated daily I\u2192D flow",
+      "OWID_quantity": "reported daily deaths",
+      "status": "VALID WITH CAVEAT",
+      "reason": "Death reporting delay is not identified and was not invented."
+    },
+    {
+      "model_quantity": "Simulated cumulative D",
+      "OWID_quantity": "reported cumulative deaths",
+      "status": "VALID WITH CAVEAT",
+      "reason": "Supplementary only; retains reporting and IFR caveats."
+    }
+  ],
+  "descriptive_validation_metrics_not_case_calibration": {
+    "country": "United Kingdom",
+    "phase": "validation",
+    "status": "SEIRD MECHANICS STATUS: GO",
+    "case_comparison_status": "NOT IDENTIFIABLE: no ascertainment/reporting-delay observation model",
+    "death_comparison_status": "VALID WITH CAVEAT: no identified death-reporting delay",
+    "cumulative_death_comparison_status": "VALID WITH CAVEAT: supplementary trajectory only",
+    "cases_n": 133,
+    "cases_mae": 47567.91260737581,
+    "cases_rmse": 54433.53741796919,
+    "cases_correlation": 0.6726782505045835,
+    "deaths_n": 133,
+    "deaths_mae": 137.52278221203855,
+    "deaths_rmse": 139.11443452788365,
+    "deaths_correlation": -0.06749743191755517,
+    "cumulative_deaths_n": 133,
+    "cumulative_deaths_mae": 166489.3733669778,
+    "cumulative_deaths_rmse": 166578.30993672027,
+    "cumulative_deaths_correlation": 0.9987508272422433,
+    "observed_peak_date": "2021-12-31",
+    "simulated_peak_date": "2021-12-31",
+    "peak_date_error_days": 0.0,
+    "observed_peak_magnitude": 166404.14,
+    "simulated_peak_magnitude": 620.517774745822,
+    "peak_size_error": -165783.6222252542
+  },
+  "limitation": "No ascertainment rate or reporting delay was created; death lag was not selected or fitted.",
+  "plots": [
+    "outputs\\seird_plots\\observed_vs_simulated_v2.png",
+    "outputs\\seird_plots\\compartments_v2.png"
+  ]
+}

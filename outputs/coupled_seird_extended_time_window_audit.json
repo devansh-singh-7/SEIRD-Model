@@ -1,0 +1,582 @@
+{
+  "report_type": "coupled_seird_extended_time_window_audit",
+  "audit_timestamp": "2026-09-27T02:00:15.926441",
+  "dataset": "owid_covid.csv",
+  "date_range": {
+    "min_date": "2020-01-01",
+    "max_date": "2026-08-30",
+    "total_days": 2434
+  },
+  "yearly_summary": [
+    {
+      "year": 2020,
+      "rows": 93636,
+      "unique_dates": 366,
+      "unique_locations": 259
+    },
+    {
+      "year": 2021,
+      "rows": 94027,
+      "unique_dates": 365,
+      "unique_locations": 260
+    },
+    {
+      "year": 2022,
+      "rows": 94574,
+      "unique_dates": 365,
+      "unique_locations": 262
+    },
+    {
+      "year": 2023,
+      "rows": 92927,
+      "unique_dates": 365,
+      "unique_locations": 261
+    },
+    {
+      "year": 2024,
+      "rows": 91360,
+      "unique_dates": 366,
+      "unique_locations": 251
+    },
+    {
+      "year": 2025,
+      "rows": 90885,
+      "unique_dates": 365,
+      "unique_locations": 249
+    },
+    {
+      "year": 2026,
+      "rows": 60258,
+      "unique_dates": 242,
+      "unique_locations": 249
+    }
+  ],
+  "country_coverage_by_year": [
+    {
+      "year": 2020,
+      "unique_countries": 246
+    },
+    {
+      "year": 2021,
+      "unique_countries": 246
+    },
+    {
+      "year": 2022,
+      "unique_countries": 247
+    },
+    {
+      "year": 2023,
+      "unique_countries": 246
+    },
+    {
+      "year": 2024,
+      "unique_countries": 243
+    },
+    {
+      "year": 2025,
+      "unique_countries": 241
+    },
+    {
+      "year": 2026,
+      "unique_countries": 241
+    }
+  ],
+  "missingness_by_year": {
+    "2020": {
+      "total_cases": {
+        "missing_count": 2016,
+        "missing_pct": 2.3
+      },
+      "new_cases": {
+        "missing_count": 2031,
+        "missing_pct": 2.3
+      },
+      "new_cases_smoothed": {
+        "missing_count": 3230,
+        "missing_pct": 3.6
+      },
+      "total_deaths": {
+        "missing_count": 2016,
+        "missing_pct": 2.3
+      },
+      "new_deaths": {
+        "missing_count": 2024,
+        "missing_pct": 2.3
+      },
+      "new_deaths_smoothed": {
+        "missing_count": 3216,
+        "missing_pct": 3.6
+      },
+      "reproduction_rate": {
+        "missing_count": 42174,
+        "missing_pct": 47.1
+      },
+      "population": {
+        "missing_count": 375,
+        "missing_pct": 0.4
+      },
+      "stringency_index": {
+        "missing_count": 21792,
+        "missing_pct": 24.3
+      }
+    },
+    "2021": {
+      "total_cases": {
+        "missing_count": 1472,
+        "missing_pct": 1.6
+      },
+      "new_cases": {
+        "missing_count": 1476,
+        "missing_pct": 1.7
+      },
+      "new_cases_smoothed": {
+        "missing_count": 1472,
+        "missing_pct": 1.6
+      },
+      "total_deaths": {
+        "missing_count": 1472,
+        "missing_pct": 1.6
+      },
+      "new_deaths": {
+        "missing_count": 1477,
+        "missing_pct": 1.7
+      },
+      "new_deaths_smoothed": {
+        "missing_count": 1472,
+        "missing_pct": 1.6
+      },
+      "reproduction_rate": {
+        "missing_count": 22352,
+        "missing_pct": 25.0
+      },
+      "population": {
+        "missing_count": 377,
+        "missing_pct": 0.4
+      },
+      "stringency_index": {
+        "missing_count": 21912,
+        "missing_pct": 24.5
+      }
+    },
+    "2022": {
+      "total_cases": {
+        "missing_count": 1473,
+        "missing_pct": 1.6
+      },
+      "new_cases": {
+        "missing_count": 1481,
+        "missing_pct": 1.7
+      },
+      "new_cases_smoothed": {
+        "missing_count": 1473,
+        "missing_pct": 1.6
+      },
+      "total_deaths": {
+        "missing_count": 1473,
+        "missing_pct": 1.6
+      },
+      "new_deaths": {
+        "missing_count": 1478,
+        "missing_pct": 1.7
+      },
+      "new_deaths_smoothed": {
+        "missing_count": 1473,
+        "missing_pct": 1.6
+      },
+      "reproduction_rate": {
+        "missing_count": 19424,
+        "missing_pct": 21.7
+      },
+      "population": {
+        "missing_count": 377,
+        "missing_pct": 0.4
+      },
+      "stringency_index": {
+        "missing_count": 21913,
+        "missing_pct": 24.5
+      }
+    },
+    "2023": {
+      "total_cases": {
+        "missing_count": 814,
+        "missing_pct": 0.9
+      },
+      "new_cases": {
+        "missing_count": 1589,
+        "missing_pct": 1.8
+      },
+      "new_cases_smoothed": {
+        "missing_count": 1568,
+        "missing_pct": 1.8
+      },
+      "total_deaths": {
+        "missing_count": 814,
+        "missing_pct": 0.9
+      },
+      "new_deaths": {
+        "missing_count": 1356,
+        "missing_pct": 1.5
+      },
+      "new_deaths_smoothed": {
+        "missing_count": 1344,
+        "missing_pct": 1.5
+      },
+      "reproduction_rate": {
+        "missing_count": 88389,
+        "missing_pct": 99.6
+      },
+      "population": {
+        "missing_count": 377,
+        "missing_pct": 0.4
+      },
+      "stringency_index": {
+        "missing_count": 88779,
+        "missing_pct": 100.0
+      }
+    },
+    "2024": {
+      "total_cases": {
+        "missing_count": 226,
+        "missing_pct": 0.3
+      },
+      "new_cases": {
+        "missing_count": 1692,
+        "missing_pct": 1.9
+      },
+      "new_cases_smoothed": {
+        "missing_count": 1690,
+        "missing_pct": 1.9
+      },
+      "total_deaths": {
+        "missing_count": 226,
+        "missing_pct": 0.3
+      },
+      "new_deaths": {
+        "missing_count": 1327,
+        "missing_pct": 1.5
+      },
+      "new_deaths_smoothed": {
+        "missing_count": 1324,
+        "missing_pct": 1.5
+      },
+      "reproduction_rate": {
+        "missing_count": 88432,
+        "missing_pct": 100.0
+      },
+      "population": {
+        "missing_count": 366,
+        "missing_pct": 0.4
+      },
+      "stringency_index": {
+        "missing_count": 88432,
+        "missing_pct": 100.0
+      }
+    },
+    "2025": {
+      "total_cases": {
+        "missing_count": 0,
+        "missing_pct": 0.0
+      },
+      "new_cases": {
+        "missing_count": 1460,
+        "missing_pct": 1.7
+      },
+      "new_cases_smoothed": {
+        "missing_count": 1460,
+        "missing_pct": 1.7
+      },
+      "total_deaths": {
+        "missing_count": 0,
+        "missing_pct": 0.0
+      },
+      "new_deaths": {
+        "missing_count": 1095,
+        "missing_pct": 1.2
+      },
+      "new_deaths_smoothed": {
+        "missing_count": 1095,
+        "missing_pct": 1.2
+      },
+      "reproduction_rate": {
+        "missing_count": 87965,
+        "missing_pct": 100.0
+      },
+      "population": {
+        "missing_count": 365,
+        "missing_pct": 0.4
+      },
+      "stringency_index": {
+        "missing_count": 87965,
+        "missing_pct": 100.0
+      }
+    },
+    "2026": {
+      "total_cases": {
+        "missing_count": 0,
+        "missing_pct": 0.0
+      },
+      "new_cases": {
+        "missing_count": 968,
+        "missing_pct": 1.7
+      },
+      "new_cases_smoothed": {
+        "missing_count": 968,
+        "missing_pct": 1.7
+      },
+      "total_deaths": {
+        "missing_count": 0,
+        "missing_pct": 0.0
+      },
+      "new_deaths": {
+        "missing_count": 726,
+        "missing_pct": 1.2
+      },
+      "new_deaths_smoothed": {
+        "missing_count": 726,
+        "missing_pct": 1.2
+      },
+      "reproduction_rate": {
+        "missing_count": 58322,
+        "missing_pct": 100.0
+      },
+      "population": {
+        "missing_count": 242,
+        "missing_pct": 0.4
+      },
+      "stringency_index": {
+        "missing_count": 58322,
+        "missing_pct": 100.0
+      }
+    }
+  },
+  "rt_estimated_availability": {
+    "date_min": "2020-01-01",
+    "date_max": "2026-08-30",
+    "countries": 237,
+    "yearly": [
+      {
+        "year": 2020,
+        "rows": 86220,
+        "countries": 236,
+        "rt_non_null": 32178,
+        "rt_null": 54042
+      },
+      {
+        "year": 2021,
+        "rows": 86140,
+        "countries": 236,
+        "rt_non_null": 55929,
+        "rt_null": 30211
+      },
+      {
+        "year": 2022,
+        "rows": 86141,
+        "countries": 237,
+        "rt_non_null": 51381,
+        "rt_null": 34760
+      },
+      {
+        "year": 2023,
+        "rows": 85482,
+        "countries": 236,
+        "rt_non_null": 21798,
+        "rt_null": 63684
+      },
+      {
+        "year": 2024,
+        "rows": 85138,
+        "countries": 234,
+        "rt_non_null": 11133,
+        "rt_null": 74005
+      },
+      {
+        "year": 2025,
+        "rows": 84680,
+        "countries": 232,
+        "rt_non_null": 5963,
+        "rt_null": 78717
+      },
+      {
+        "year": 2026,
+        "rows": 56144,
+        "countries": 232,
+        "rt_non_null": 1590,
+        "rt_null": 54554
+      }
+    ]
+  },
+  "population_mortality_coverage": {
+    "2020": {
+      "total_countries": 246,
+      "with_population": 244,
+      "with_deaths_data": 241
+    },
+    "2021": {
+      "total_countries": 246,
+      "with_population": 244,
+      "with_deaths_data": 241
+    },
+    "2022": {
+      "total_countries": 247,
+      "with_population": 245,
+      "with_deaths_data": 241
+    },
+    "2023": {
+      "total_countries": 246,
+      "with_population": 244,
+      "with_deaths_data": 241
+    },
+    "2024": {
+      "total_countries": 243,
+      "with_population": 242,
+      "with_deaths_data": 241
+    },
+    "2025": {
+      "total_countries": 241,
+      "with_population": 240,
+      "with_deaths_data": 241
+    },
+    "2026": {
+      "total_countries": 241,
+      "with_population": 240,
+      "with_deaths_data": 241
+    }
+  },
+  "insufficient_countries_by_year": {
+    "2020": 20,
+    "2021": 16,
+    "2022": 9,
+    "2023": 8,
+    "2024": 5,
+    "2025": 3,
+    "2026": 3
+  },
+  "extension_design_assessment": {
+    "limiting_factor": "Rt_estimated availability determines maximum simulation date, since beta(t) = Rt(t) * (gamma+mu) * N/S(t)",
+    "owid_max_date": "2026-08-30",
+    "rt_max_date": "2026-08-30",
+    "year_feasibility": {
+      "2020": {
+        "rt_non_null": 32178,
+        "rt_total": 86220,
+        "rt_coverage_pct": 37.3,
+        "insufficient_countries": 20,
+        "feasible": false
+      },
+      "2021": {
+        "rt_non_null": 55929,
+        "rt_total": 86140,
+        "rt_coverage_pct": 64.9,
+        "insufficient_countries": 16,
+        "feasible": true
+      },
+      "2022": {
+        "rt_non_null": 51381,
+        "rt_total": 86141,
+        "rt_coverage_pct": 59.6,
+        "insufficient_countries": 9,
+        "feasible": true
+      },
+      "2023": {
+        "rt_non_null": 21798,
+        "rt_total": 85482,
+        "rt_coverage_pct": 25.5,
+        "insufficient_countries": 8,
+        "feasible": false
+      },
+      "2024": {
+        "rt_non_null": 11133,
+        "rt_total": 85138,
+        "rt_coverage_pct": 13.1,
+        "insufficient_countries": 5,
+        "feasible": false
+      },
+      "2025": {
+        "rt_non_null": 5963,
+        "rt_total": 84680,
+        "rt_coverage_pct": 7.0,
+        "insufficient_countries": 3,
+        "feasible": false
+      },
+      "2026": {
+        "rt_non_null": 1590,
+        "rt_total": 56144,
+        "rt_coverage_pct": 2.8,
+        "insufficient_countries": 3,
+        "feasible": false
+      }
+    },
+    "recommended_extension_end_date": "2022-12-31",
+    "recommended_extension_start_date": "2020-01-22",
+    "feasible_years": [
+      2021,
+      2022
+    ],
+    "parameter_regime_assessment": {
+      "sigma": {
+        "value": 0.19607843137254904,
+        "period_validity": "2020 ancestral strain evidence",
+        "post_2020_concern": "Omicron and later variants have shorter incubation (3.42 d vs 5.1 d); using 2020 sigma throughout is a documented limitation",
+        "recommendation": "RETAIN with explicit limitation documentation; variant-specific sigma would require additional parameter evidence"
+      },
+      "gamma": {
+        "value": 0.125,
+        "period_validity": "2020 ancestral strain evidence",
+        "post_2020_concern": "Omicron viable-virus shedding 5.16 d vs ancestral 8 d; infectious period shortens",
+        "recommendation": "RETAIN with explicit limitation documentation"
+      },
+      "mu": {
+        "value": 0.0008304811757600161,
+        "period_validity": "2020 early China IFR estimate",
+        "post_2020_concern": "IFR changed substantially with vaccination, variants, treatment improvements; 2020 IFR applied to 2021+ is a significant simplification",
+        "recommendation": "RETAIN with STRONG limitation warning; IFR evolution is NOT modeled"
+      },
+      "alpha": {
+        "values": [
+          0.0,
+          0.001,
+          0.01,
+          0.05
+        ],
+        "period_validity": "Sensitivity parameter, not empirically identified",
+        "post_2020_concern": "Travel restrictions were implemented and lifted asymmetrically; static alpha does not capture border policy dynamics",
+        "recommendation": "RETAIN as sensitivity parameter with documented limitation"
+      },
+      "route_network": {
+        "source": "Static OpenFlights route topology",
+        "post_2020_concern": "Actual flight routes changed dramatically during 2020-2022 due to border closures; static topology is a simplification for the entire period",
+        "recommendation": "RETAIN with explicit caveat that network does not model border closures or route suspensions"
+      },
+      "beta_rt_mapping": {
+        "formula": "beta(t) = Rt_estimated(t) * (gamma+mu) * N/S(t)",
+        "post_2020_concern": "If Rt_estimated is computed from OWID new_cases using Cori method, it implicitly captures some intervention/vaccination/variant effects through the case curve",
+        "recommendation": "RETAIN; Rt_estimated naturally absorbs some time-varying effects, but its interpretation changes with vaccination and testing capacity"
+      }
+    },
+    "extension_limitations": [
+      "Fixed biological parameters (sigma, gamma, mu) do not reflect variant evolution (Alpha, Delta, Omicron)",
+      "IFR 0.66% from early 2020 does not account for vaccination, improved treatment, or variant virulence changes",
+      "Static flight route network does not model border closures, travel bans, or route suspensions",
+      "Alpha remains a sensitivity parameter; static alpha does not capture time-varying border policies",
+      "Vaccination is not modeled: no immunity waning, booster effects, or reduced susceptibility",
+      "Reinfection is not modeled: the SEIRD R compartment is absorbing",
+      "Ascertainment rate changes (testing capacity evolution) are not explicitly modeled",
+      "Confirmed cases are not directly comparable to the model I compartment without an observation model"
+    ]
+  },
+  "audit_verdict": {
+    "raw_data_max_date": "2026-08-30",
+    "epidemiologically_defensible_max_date": "2022-12-31",
+    "feasible_years": [
+      2021,
+      2022
+    ],
+    "ineligible_years": [
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "reason_for_cutoff": "After 2022-12-31, OWID reproduction_rate missingness reaches 99.6%-100%, Oxford stringency index collection terminated permanently, and international surveillance collapsed following WHO declaration of end of PHEIC. Simulating past 2022 without waning immunity also leads to mathematical susceptible exhaustion."
+  }
+}

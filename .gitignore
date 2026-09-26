@@ -1,0 +1,21 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE / System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Raw unreferenced monolithic dumps (>900MB)
+owid-covid-data.json

@@ -1,0 +1,69 @@
+{
+  "status": "SEIRD PARAMETER STATUS: READY; SEIRD SIMULATION NOT RUN",
+  "scope": "Country-level deterministic SEIRD only; no mobility, external datasets, or SEIRD simulation was run.",
+  "source_files_checked": [
+    "AI_MODELLING_GUARDRAILS.md",
+    "Plan.pdf",
+    "outputs/owid_covid_processed.csv",
+    "outputs/rt_estimates.csv",
+    "outputs/mortality_model_data.csv",
+    "outputs/mortality_model_results.csv"
+  ],
+  "approved_input_audit": {
+    "owid_processed_rows": 569945,
+    "owid_processed_columns": 62,
+    "owid_countries": 237,
+    "owid_date_min": "2020-01-01",
+    "owid_date_max": "2026-08-30",
+    "rt_rows": 569945,
+    "rt_valid_estimates": 179972,
+    "rt_missing_estimates": 389973,
+    "mortality_rows": 221,
+    "mortality_regression_eligible_rows": 209,
+    "mortality_definition": "observed cumulative deaths on 2021-12-31 / observed cumulative cases 14 days earlier",
+    "mortality_predictor_missingness": {
+      "hospital_beds_per_thousand": 56,
+      "human_development_index": 36,
+      "gdp_per_capita": 31
+    }
+  },
+  "parameter_audit": {
+    "beta": {
+      "status": "method ready; numerical beta conditional on valid Rt and selected rates",
+      "available_basis": "Rt_estimated can support beta only after gamma and mu are defensibly specified",
+      "formula_relation": "beta = Rt_estimated * (gamma + mu) for the stated SEIRD equations"
+    },
+    "sigma": {
+      "status": "ready",
+      "required_parameter": "incubation period or an equivalent exposed-to-infectious transition rate"
+    },
+    "gamma": {
+      "status": "ready",
+      "required_parameter": "infectious/recovery/removal period"
+    },
+    "mu": {
+      "status": "ready under explicit competing-hazard assumption",
+      "reason": "Derived from Verity IFR 0.0066 and primary gamma using mu = gamma*p/(1-p); the OWID lagged CFR is not used."
+    }
+  },
+  "project_materials_finding": "The Plan supplied symbolic equations only. Numerical assumptions were added from authoritative peer-reviewed evidence with applicability limitations and explicit derivations; simulation remains unrun.",
+  "equations_not_run": {
+    "susceptible": "dS/dt = -beta * S * I / N",
+    "exposed": "dE/dt = beta * S * I / N - sigma * E",
+    "infectious": "dI/dt = sigma * E - (gamma + mu) * I",
+    "recovered": "dR/dt = gamma * I",
+    "deceased": "dD/dt = mu * I"
+  },
+  "blocking_reasons": [
+    "Simulation was intentionally not run in this task; separate authorization and final scenario selection are still required.",
+    "The infectious-period and mortality mappings are explicit modelling assumptions and must be sensitivity-tested."
+  ],
+  "outputs_not_generated_because_simulation_was_not_run": [
+    "seird_country_parameters.csv",
+    "seird_calibration_results.csv",
+    "seird_validation.csv",
+    "representative SEIRD plots"
+  ],
+  "raw_dataset_status": "owid_covid.csv was not modified.",
+  "next_required_input": "Authorize a single-country validation run after reviewing the sourced primary and sensitivity scenarios; do not use intervention coefficients or OWID CFR as mu."
+}

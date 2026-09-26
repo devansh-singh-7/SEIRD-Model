@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.1",
+  "status": "PARAMETERS SOURCED; MECHANICAL UK REPLAY RUN; CALIBRATION BLOCKED",
+  "model": "deterministic country-level SEIRD",
+  "sources": {
+    "incubation_early": {"citation": "Lauer et al., Annals of Internal Medicine", "publication_date": "2020-03-10", "url": "https://europepmc.org/articles/PMC7081172", "evidence": "181 confirmed cases; median incubation 5.1 days (95% CI 4.5-5.8)."},
+    "incubation_variants": {"citation": "Wu et al., JAMA Network Open", "publication_date": "2022-08-22", "url": "https://europepmc.org/articles/PMC9396366", "evidence": "Systematic review/meta-analysis of 142 studies and 8,112 patients; Alpha 5.00, Delta 4.41, Omicron 3.42 days; substantial heterogeneity."},
+    "infectiousness_ancestral": {"citation": "Cevik et al., The Lancet Microbe", "publication_date": "2020-11-19", "url": "https://europepmc.org/articles/PMC7837230", "evidence": "Systematic review/meta-analysis; no live virus isolated beyond day 9 and no respiratory sample after day 8 yielded live virus in reviewed studies; RNA shedding was longer."},
+    "infectiousness_omicron": {"citation": "Wu et al., International Journal of Infectious Diseases", "publication_date": "2023-02-18", "url": "https://europepmc.org/articles/PMC9937726", "evidence": "Systematic review/meta-analysis of 29 studies and 230,227 patients; pooled viable-virus shedding 5.16 days (95% CI 4.18-6.14), PCR positivity 10.82 days."},
+    "ifr_early": {"citation": "Verity et al., The Lancet Infectious Diseases", "publication_date": "2020-03-30", "url": "https://europepmc.org/article/MED/32240634", "evidence": "Model-based early-pandemic analysis; overall China IFR 0.66% (95% CrI 0.39%-1.33%), strongly age-dependent."}
+  },
+  "parameters": {
+    "incubation_period": {
+      "value": 5.1,
+      "unit": "days",
+      "status": "READY_PRIMARY",
+      "classification": "sourced",
+      "source": "incubation_early",
+      "source_date": "2020-03-10",
+      "evidence_justification": "Primary early-pandemic median selected for historical 2020 calibration; not universal across 2020-2026.",
+      "applicability_limitations": "Early symptomatic confirmed cases; may overrepresent severe cases and describes symptom onset, not necessarily latent period to infectiousness."
+    },
+    "sigma": {
+      "value": 0.19607843137254904,
+      "unit": "1/day",
+      "status": "READY_PRIMARY",
+      "classification": "derived",
+      "derivation": "sigma = 1 / incubation_period",
+      "source": "Derived from incubation_period sourced from incubation_early",
+      "source_date": "2020-03-10",
+      "evidence_justification": "Exact reciprocal under the project-specified relationship.",
+      "applicability_limitations": "Uses incubation as the project E-to-I proxy; incubation and latent period are not identical."
+    },
+    "infectious_recovery_period": {
+      "value": 8.0,
+      "unit": "days",
+      "status": "READY_PRIMARY_ASSUMPTION",
+      "classification": "assumed_from_source_bound",
+      "source": "infectiousness_ancestral",
+      "source_date": "2020-11-19",
+      "evidence_justification": "Operational primary assumption anchored to no live respiratory virus after day 8; not PCR/RNA shedding duration.",
+      "applicability_limitations": "Culture-positive duration is not identical to population infectiousness; evidence is heterogeneous and early-pandemic."
+    },
+    "gamma": {
+      "value": 0.125,
+      "unit": "1/day",
+      "status": "READY_PRIMARY",
+      "classification": "derived",
+      "derivation": "gamma = 1 / infectious_recovery_period",
+      "source": "Derived from infectious_recovery_period sourced from infectiousness_ancestral",
+      "source_date": "2020-11-19",
+      "evidence_justification": "Exact reciprocal under the project-specified I-to-R relationship.",
+      "applicability_limitations": "Depends on an explicit operational infectious-period assumption."
+    },
+    "mortality_transition_parameter": {
+      "value": 0.0008304811757600161,
+      "unit": "1/day",
+      "status": "READY_PRIMARY_DERIVED",
+      "classification": "derived_under_explicit_competing_hazard_assumption",
+      "source": "ifr_early plus primary gamma",
+      "source_date": "2020-03-30",
+      "evidence_justification": "With IFR probability p=0.0066 and competing hazards, mu = gamma*p/(1-p) = 0.125*0.0066/(1-0.0066).",
+      "applicability_limitations": "Early China IFR is age- and period-dependent; mapping assumes IFR deaths occur through the I-to-D hazard. OWID CFR is not used."
+    },
+    "mortality_parameter_definition": {
+      "value": "mu is the per-time infectious-to-deceased transition rate in dI/dt = sigma*E - (gamma+mu)*I and dD/dt = mu*I; IFR p is the competing-hazard probability p=mu/(gamma+mu).",
+      "status": "READY_WITH_EXPLICIT_ASSUMPTION",
+      "classification": "assumption_supported_by_mathematical_definition",
+      "source": "Project SEIRD equations plus ifr_early",
+      "source_date": "2020-03-30",
+      "evidence_justification": "CFR, IFR, mortality probability, and mortality transition rate are explicitly distinguished; reported CFR is not copied into mu.",
+      "applicability_limitations": "The competing-hazard mapping is a model assumption and must be sensitivity-tested."
+    }
+  },
+  "beta_calibration": {
+    "status": "READY_METHOD_CONDITIONAL",
+    "value": null,
+    "unit": "1/day",
+    "relationship": "For the implemented equations, R0(t)=beta(t)/(gamma+mu) at full susceptibility and Reff(t)=beta(t)*S(t)/[N*(gamma+mu)]. Rt_estimated is a Cori renewal-ratio effective-Rt estimate, so, conditional on using it as the model Reff, beta(t)=Rt_estimated(t)*(gamma+mu)*N/S(t) for the transition beginning at t. beta(t)=Rt_estimated(t)*(gamma+mu) is valid only for an R0/full-susceptibility interpretation (or S/N approximately 1).",
+    "rt_source": "approved rt_estimates.csv: independently estimated Rt_estimated only; OWID reproduction_rate is reference data and must not be substituted.",
+    "source": "AI_MODELLING_GUARDRAILS.md, seird_assumptions.md, approved rt_estimates.csv",
+    "source_date": null,
+    "evidence_justification": "The Rt estimator is a renewal-ratio estimate from incidence and is therefore treated as an effective reproduction number for the mechanical replay. Substitution into the exact SEIRD Reff identity gives the stated beta relationship.",
+    "applicability_limitations": "This establishes internal mechanics, not a validated observation model or calibration: reported-case incidence, true susceptibility, vaccination, reinfection, and reporting are not identified by the approved OWID inputs. Missing Rt remains unavailable and beta is time-varying."
+  },
+  "sensitivity_scenarios": {
+    "PRIMARY": {"incubation_period_days": 5.1, "sigma_per_day": 0.19607843137254904, "infectious_recovery_period_days": 8.0, "gamma_per_day": 0.125, "ifr_probability": 0.0066, "mu_per_day": 0.0008304811757600161, "scenario_basis": "Early 2020 historical replay using Lauer, Cevik, and Verity evidence with explicit operational assumptions."},
+    "LOWER_DURATION_HIGH_RATE": {"incubation_period_days": 3.42, "sigma_per_day": 0.29239766081871343, "infectious_recovery_period_days": 5.16, "gamma_per_day": 0.19379844961240308, "ifr_probability": 0.0039, "mu_per_day": 0.0007587731688468748, "scenario_basis": "Omicron incubation and viable-virus evidence with lower Verity IFR bound; not a 2020 default."},
+    "UPPER_DURATION_LOW_RATE": {"incubation_period_days": 6.57, "sigma_per_day": 0.15220700152207, "infectious_recovery_period_days": 9.0, "gamma_per_day": 0.1111111111111111, "ifr_probability": 0.0133, "mu_per_day": 0.001497697149871063, "scenario_basis": "Pooled incubation sensitivity and Cevik day-9 boundary with upper Verity IFR bound; not universal."}
+  },
+  "pre_simulation_gate": {"incubation": "READY", "sigma": "READY", "infectious_period": "READY WITH EXPLICIT OPERATIONAL ASSUMPTION", "gamma": "READY", "mortality_parameter": "READY WITH EXPLICIT COMPETING-HAZARD ASSUMPTION", "beta_method": "READY METHOD / NUMERIC BETA CONDITIONAL ON Rt", "seird_execution": "MECHANICAL UK REPLAY RUN; CALIBRATION NOT AUTHORIZED WITHOUT AN IDENTIFIABLE OBSERVATION MODEL"},
+  "pre_simulation_requirements": [
+    "All required numerical values are non-null, positive, and unit-consistent.",
+    "Every value has source, source_date, evidence_justification, and applicability_limitations.",
+    "The mortality definition explicitly distinguishes CFR, IFR, mortality probability, and mortality transition rate.",
+    "The selected beta relationship is mathematically consistent with the implemented SEIRD equations.",
+    "Observed OWID data remain separate from simulated compartments and simulated incidence/deaths.",
+    "Population N and compartment units are explicitly defined and conserved by the solver.",
+    "Chronological calibration and validation periods are specified before simulation."
+  ]
+}

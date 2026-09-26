@@ -1,0 +1,104 @@
+{
+  "status": "EXTENDED MODEL STATUS: GO",
+  "conclusions": {
+    "pre_extension_status": "PRE-EXTENSION STATUS: GO",
+    "extended_model_status": "EXTENDED MODEL STATUS: GO",
+    "overall_status": "OVERALL COUPLED SEIRD STATUS: VALIDATED SENSITIVITY MODEL"
+  },
+  "scope": {
+    "simulation_period": "2020-01-22 to 2022-12-31",
+    "days_simulated": 1075,
+    "modeled_countries_count": 217,
+    "connected_countries_count": 212,
+    "isolated_countries_count": 5,
+    "global_population_represented": 7895110975,
+    "scenarios_evaluated": [
+      "SCEN_0_DECOUPLED",
+      "SCEN_1_LOW_COUPLING",
+      "SCEN_2_MODERATE_COUPLING",
+      "SCEN_3_HIGH_COUPLING"
+    ]
+  },
+  "mechanical_validation": {
+    "complete_date_coverage": true,
+    "country_coverage": true,
+    "nonnegative_compartments": true,
+    "population_accounting": true,
+    "max_population_error": 6.198883056640625e-06,
+    "deaths_nondecreasing": true,
+    "recovered_nondecreasing": true,
+    "no_spontaneous_infection": true,
+    "numerical_stability": true,
+    "isolated_countries_zero_alpha": true,
+    "decoupled_scenario_zero_spread": true,
+    "alpha_sensitivity_monotonicity": true,
+    "route_directionality_preserved": true,
+    "route_matrix_stochasticity": true
+  },
+  "historical_validation": {
+    "observation_model_limitation": "CRITICAL: Confirmed cases represent clinically detected and reported infections, subject to time-varying testing capacity, ascertainment ratios (~10%-30%), and reporting lags. The SEIRD I compartment represents active infectious population. Therefore, level comparisons are non-commensurable without an explicit observation model. Arrival timing and peak dynamics provide structural, non-calibrated validation of network dissemination.",
+    "arrival_timing_comparison": {
+      "countries_evaluated": 138,
+      "median_lead_lag_days": 285.5,
+      "mean_lead_lag_days": 352.731884057971
+    }
+  },
+  "scenario_comparison": [
+    {
+      "scenario": "SCEN_0_DECOUPLED",
+      "alpha": 0.0,
+      "countries_reached": 7,
+      "global_cumulative_infections": 556076.7889359146,
+      "global_cumulative_deaths": 3136.2389057246583,
+      "global_peak_infectious": 49900.26488355872,
+      "global_peak_date": "2022-12-31",
+      "mean_time_to_first_infection_days": 0.0,
+      "median_time_to_first_infection_days": 0.0,
+      "mean_imported_infectious_pressure": 7.356006863847837e-08
+    },
+    {
+      "scenario": "SCEN_1_LOW_COUPLING",
+      "alpha": 0.001,
+      "countries_reached": 18,
+      "global_cumulative_infections": 523869.5965876731,
+      "global_cumulative_deaths": 2964.308837694393,
+      "global_peak_infectious": 46248.719754556485,
+      "global_peak_date": "2022-12-31",
+      "mean_time_to_first_infection_days": 99.27777777777777,
+      "median_time_to_first_infection_days": 111.0,
+      "mean_imported_infectious_pressure": 7.231140057820286e-08
+    },
+    {
+      "scenario": "SCEN_2_MODERATE_COUPLING",
+      "alpha": 0.01,
+      "countries_reached": 53,
+      "global_cumulative_infections": 341889.4236441915,
+      "global_cumulative_deaths": 1989.9644018611275,
+      "global_peak_infectious": 25867.162429767064,
+      "global_peak_date": "2022-12-31",
+      "mean_time_to_first_infection_days": 128.81132075471697,
+      "median_time_to_first_infection_days": 128.0,
+      "mean_imported_infectious_pressure": 6.816430993049151e-08
+    },
+    {
+      "scenario": "SCEN_3_HIGH_COUPLING",
+      "alpha": 0.05,
+      "countries_reached": 108,
+      "global_cumulative_infections": 236968.8828426987,
+      "global_cumulative_deaths": 1468.7375344556713,
+      "global_peak_infectious": 10490.295041459385,
+      "global_peak_date": "2022-12-31",
+      "mean_time_to_first_infection_days": 130.65740740740742,
+      "median_time_to_first_infection_days": 123.5,
+      "mean_imported_infectious_pressure": 1.0024650868819037e-07
+    }
+  ],
+  "limitations": [
+    "Route connectivity is a topological proxy, NOT measured passenger volume.",
+    "Alpha is an operational sensitivity parameter, NOT an empirically calibrated travel rate.",
+    "Confirmed cases are not directly equivalent to latent SEIRD infections.",
+    "Fixed biological parameters (sigma, gamma, mu) do not reflect Omicron/Delta variant shifts or vaccination.",
+    "Historical fit does not by itself establish causal validity of the airport route mechanism."
+  ],
+  "execution_time_seconds": 24.42
+}

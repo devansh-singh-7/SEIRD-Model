@@ -1,0 +1,118 @@
+{
+  "status": "MOBILITY NETWORK STATUS: GO",
+  "scope": {
+    "input_files": [
+      "cleaned_airports.csv",
+      "cleaned_routes.csv"
+    ],
+    "input_sha256": {
+      "cleaned_airports.csv": "f0713c11c6ec7c00e363a065c433e71fcd24fe181073683d54e78b1139e30b22",
+      "cleaned_routes.csv": "fc1b0a84e4b30cadf3e085fe8b639a36cd607f207daee4604f56de8948b1fa6b"
+    },
+    "external_data_used": false,
+    "source_files_modified": false,
+    "seird_coupled": false,
+    "traffic_interpretation": "route-connectivity proxy only; route counts are not passenger volumes, passenger flows, or measured mobility."
+  },
+  "airport_processing": {
+    "total_records": 7698,
+    "valid_records": 7698,
+    "invalid_records": 0,
+    "duplicate_airport_id_records": 0,
+    "duplicate_physical_signature_candidates": 0,
+    "missing_or_unusable_country_records": 0,
+    "invalid_coordinate_records": 0,
+    "missing_coordinate_records": 0,
+    "unusable_identifier_records": 0,
+    "iata_mapping": "cleaned_airports.csv has no IATA column. iata_code is populated only by a unique, three-character code observed in cleaned_routes.csv for that airport ID; otherwise it is left missing or marked conflicting.",
+    "unique_route_derived_iata_style_codes": 3218,
+    "conflicting_route_code_airports": 0
+  },
+  "route_processing": {
+    "total_records": 67240,
+    "valid_records": 66770,
+    "invalid_or_unmapped_records": 469,
+    "airport_self_loops_removed": 1,
+    "exact_duplicates_excluded_from_network": 0,
+    "valid_records_with_reverse_direction": 65821,
+    "codeshare_status_counts": {
+      "VALID_Y_OR_N": 67240
+    },
+    "stops_status_counts": {
+      "VALID": 67240
+    },
+    "airline_id_status_counts": {
+      "VALID_POSITIVE_INTEGER": 66765,
+      "MISSING_OR_INVALID": 475
+    },
+    "filtering_rules": [
+      "Keep all route records in routes_processed.csv with audit fields.",
+      "Exclude from the validated network only records with unusable endpoint IDs, endpoints absent from the valid supplied airport mapping, airport-level self-loops, or later exact duplicates across all supplied route fields.",
+      "Retain directional routes, including reverse-direction pairs, domestic routes, codeshare records, and routes with nonzero stops when their endpoints map validly.",
+      "Airline/code/codeshare/stops quality problems are reported but do not by themselves remove an otherwise mappable connectivity record."
+    ]
+  },
+  "network": {
+    "airport_network_rows": 66770,
+    "airport_network_route_count": 66770,
+    "directed_airport_pairs": 36906,
+    "airport_pairs_with_reverse_direction": 18048,
+    "domestic_route_count_retained": 32060,
+    "international_route_count": 34710,
+    "countries_represented": 237,
+    "countries_without_usable_airport_connectivity": [
+      "Antarctica",
+      "British Indian Ocean Territory",
+      "Johnston Atoll",
+      "Midway Islands",
+      "Montserrat",
+      "Myanmar",
+      "Palestine",
+      "Saint Helena",
+      "Svalbard",
+      "Syria",
+      "Wake Island",
+      "West Bank"
+    ],
+    "country_route_matrix": {
+      "format": "long-form directed edge list",
+      "rows": 4697,
+      "country_index_dimension": 225
+    },
+    "normalized_matrix": {
+      "file": "country_route_matrix_normalized.csv",
+      "scope": "international routes only",
+      "rows": 4558,
+      "source_countries_with_international_outflow": 225,
+      "normalization": "Each source country's retained international route counts sum to one. Countries with no international outgoing routes receive no fabricated row."
+    }
+  },
+  "structural_validation": {
+    "required_input_files_present": true,
+    "expected_schemas_present": true,
+    "validated_network_has_no_unmapped_airport_ids": true,
+    "validated_network_has_no_missing_country_mappings": true,
+    "airport_self_loops_removed": true,
+    "exact_duplicate_records_excluded_from_network": true,
+    "directional_information_preserved": true,
+    "no_self_country_route_labelled_international": true,
+    "normalized_rows_sum_to_one_per_outgoing_country": true,
+    "positive_network_coverage": true
+  },
+  "outputs": [
+    "airports_processed.csv",
+    "routes_processed.csv",
+    "airport_route_network.csv",
+    "country_route_matrix.csv",
+    "country_route_matrix_normalized.csv",
+    "airport_route_validation.csv",
+    "mobility_network_report.md",
+    "mobility_network_report.json"
+  ],
+  "limitations": [
+    "Airport-country labels are used exactly as supplied; no external country-code harmonisation was performed.",
+    "The supplied airport file has no IATA field, so route-observed codes are not independently verified against an airport-master IATA field.",
+    "Route records describe connectivity, not passenger volume, travel volume, traffic intensity, or compartment movement rates.",
+    "This stage does not couple routes to SEIRD or simulate cross-country infection."
+  ]
+}

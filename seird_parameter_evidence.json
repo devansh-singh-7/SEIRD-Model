@@ -1,0 +1,136 @@
+{
+  "status": "PARAMETERS SOURCED; MECHANICAL UK REPLAY RUN; CALIBRATION BLOCKED",
+  "evidence_policy": "No numerical value is entered without an identified source or explicitly approved assumption.",
+  "parameters": [
+    {
+      "parameter_name": "incubation_period",
+      "numerical_value": 5.1,
+      "unit": "days",
+      "mathematical_definition": "Duration from exposure into E to transition into I; sigma = 1 / incubation_period.",
+      "source": "Lauer et al., Ann Intern Med, https://europepmc.org/articles/PMC7081172",
+      "source_publication_date": "2020-03-10",
+      "exact_evidence_supporting_value": "181 confirmed cases; median incubation 5.1 days (95% CI 4.5-5.8).",
+      "applicability_to_covid_modelling_period": "Must be explicitly specified for the COVID period, population, and variant scope being modelled.",
+      "limitations": "Evidence is early-pandemic and symptom-based; variant, age, severity, and population differences limit transferability. It must not be inferred from the OWID curve alone.",
+      "classification": "sourced",
+      "readiness": "READY_PRIMARY"
+    },
+    {
+      "parameter_name": "sigma",
+      "numerical_value": 0.19607843137254904,
+      "unit": "1/day",
+      "mathematical_definition": "sigma = 1 / incubation_period.",
+      "source": "Derived from sourced incubation_period; Lauer et al. publication date 2020-03-10",
+      "source_publication_date": "2020-03-10",
+      "exact_evidence_supporting_value": "1 / 5.1 days = 0.19607843137254904 1/day.",
+      "applicability_to_covid_modelling_period": "Derived only after a sourced incubation period is accepted for the selected COVID modelling period.",
+      "limitations": "Sigma inherits the incubation evidence and the project proxy from incubation to E-to-I timing; incubation and latent period are not identical.",
+      "classification": "derived",
+      "readiness": "READY_PRIMARY"
+    },
+    {
+      "parameter_name": "infectious_recovery_period",
+      "numerical_value": 8.0,
+      "unit": "days",
+      "mathematical_definition": "Duration governing removal/recovery from I; gamma = 1 / infectious_recovery_period.",
+      "source": "Cevik et al., Lancet Microbe, https://europepmc.org/articles/PMC7837230",
+      "source_publication_date": "2020-11-19",
+      "exact_evidence_supporting_value": "No live virus was isolated beyond day 9; no respiratory sample after day 8 yielded live virus. Eight days is an explicit operational assumption, not an RNA shedding duration.",
+      "applicability_to_covid_modelling_period": "Must be explicitly specified for the COVID period, population, and clinical definition being modelled.",
+      "limitations": "The 8-day value is an operational assumption anchored to viable-virus evidence, not a universal population infectiousness duration; RNA shedding is not used as a substitute.",
+      "classification": "assumed_from_source_bound",
+      "readiness": "READY_PRIMARY_ASSUMPTION"
+    },
+    {
+      "parameter_name": "gamma",
+      "numerical_value": 0.125,
+      "unit": "1/day",
+      "mathematical_definition": "gamma = 1 / infectious_recovery_period.",
+      "source": "Derived from sourced infectious_recovery_period; Cevik et al. publication date 2020-11-19",
+      "source_publication_date": "2020-11-19",
+      "exact_evidence_supporting_value": "1 / 8 days = 0.125 1/day.",
+      "applicability_to_covid_modelling_period": "Derived only after a sourced infectious/recovery period is accepted for the selected COVID modelling period.",
+      "limitations": "Gamma inherits the operational infectious-period assumption and its variant, severity, treatment, vaccination, and sampling limitations.",
+      "classification": "derived",
+      "readiness": "READY_PRIMARY"
+    },
+    {
+      "parameter_name": "mortality_transition_parameter_mu",
+      "numerical_value": 0.0008304811757600161,
+      "unit": "1/day",
+      "mathematical_definition": "mu is the per-time transition rate from I to D in dI/dt = sigma*E - (gamma + mu)*I and dD/dt = mu*I.",
+      "source": "Derived from Verity et al. IFR and primary gamma; https://europepmc.org/article/MED/32240634",
+      "source_publication_date": "2020-03-30",
+      "exact_evidence_supporting_value": "Verity IFR p=0.0066 (95% CrI 0.0039-0.0133); mu=gamma*p/(1-p)=0.125*0.0066/(1-0.0066).",
+      "applicability_to_covid_modelling_period": "Requires an explicit mapping appropriate to the COVID population, period, disease definition, and SEIRD compartment structure.",
+      "limitations": "The approved OWID mortality outcome is a lagged reported CFR-like measure and is not used. The competing-hazard mapping from early China IFR to mu is an explicit assumption with age and period limitations.",
+      "classification": "derived_under_explicit_competing_hazard_assumption",
+      "readiness": "READY_PRIMARY_DERIVED"
+    },
+    {
+      "parameter_name": "beta_calibration_method",
+      "numerical_value": null,
+      "unit": "method specification; beta would be 1/day when calculated",
+      "mathematical_definition": "For dS/dt=-beta*S*I/N and dI/dt=sigma*E-(gamma+mu)*I, R0=beta/(gamma+mu) at full susceptibility and Reff=beta*S/[N*(gamma+mu)]. The Cori renewal-ratio Rt_estimated is treated as Reff for the mechanics replay, giving beta(t)=Rt_estimated(t)*(gamma+mu)*N/S(t) at the transition start. beta=Rt_estimated*(gamma+mu) is only a full-susceptibility/R0 mapping (or an S/N approximately 1 approximation). Use only valid Rt_estimated observations; do not substitute OWID reproduction_rate or intervention coefficients.",
+      "source": "AI_MODELLING_GUARDRAILS.md, seird_assumptions.md, approved rt_estimates.csv",
+      "source_publication_date": null,
+      "exact_evidence_supporting_value": "The approved Rt output is independently estimated and explicitly distinguished from OWID reproduction_rate. The intervention analysis is documented as non-predictive and excluded from calibration.",
+      "applicability_to_covid_modelling_period": "Applicable only as a mechanical retrospective replay after gamma, mu, valid Rt periods, and the model transition-start S are supplied. It is not a validated case-calibration method.",
+      "limitations": "Numerical beta remains conditional on valid Rt periods, transition-start S, and selected scenario parameters; missing Rt periods remain unavailable and beta is time-varying. Approved inputs do not identify a case ascertainment or reporting-delay observation model.",
+      "classification": "method_ready_value_blocked",
+      "readiness": "READY METHOD / NUMERIC BETA CONDITIONAL ON Rt"
+    }
+  ],
+  "mortality_definitions": {
+    "CFR": "Reported deaths divided by reported cases under a stated observation window.",
+    "IFR": "Deaths among all infections, including infections that were not observed or reported.",
+    "mortality_probability": "Probability of death over a specified disease course or compartment transition.",
+    "mortality_transition_rate": "Per-time rate mu governing the I-to-D compartment flow.",
+    "approved_owid_outcome": "Lagged reported CFR-like outcome; not interchangeable with IFR, mortality probability, or mu."
+  },
+  "sensitivity_analysis_design": {
+    "status": "NUMERICAL SCENARIOS SOURCED; NOT RERUN IN THE MECHANICAL V2 STAGE",
+    "primary_parameter_set": {
+      "purpose": "Main COVID modelling assumption set selected from the strongest applicable supplied evidence.",
+      "values": {"incubation_period_days": 5.1, "sigma_per_day": 0.19607843137254904, "infectious_recovery_period_days": 8.0, "gamma_per_day": 0.125, "ifr_probability": 0.0066, "mu_per_day": 0.0008304811757600161},
+      "selection_rule": "Historical 2020 primary set; infectious period is an explicit operational assumption anchored to viable-virus evidence."
+    },
+    "alternative_parameter_sets": [
+      {
+        "name": "shorter_duration_set",
+        "purpose": "Assess a defensibly shorter sourced incubation and/or infectious/recovery period.",
+        "values": {"incubation_period_days": 3.42, "sigma_per_day": 0.29239766081871343, "infectious_recovery_period_days": 5.16, "gamma_per_day": 0.19379844961240308, "ifr_probability": 0.0039, "mu_per_day": 0.0007587731688468748},
+        "selection_rule": "Populate only from an identified source or approved assumption; do not choose values to improve validation metrics."
+      },
+      {
+        "name": "longer_duration_set",
+        "purpose": "Assess a defensibly longer sourced incubation and/or infectious/recovery period.",
+        "values": {"incubation_period_days": 6.57, "sigma_per_day": 0.15220700152207, "infectious_recovery_period_days": 9.0, "gamma_per_day": 0.1111111111111111, "ifr_probability": 0.0133, "mu_per_day": 0.001497697149871063},
+        "selection_rule": "Populate only from an identified source or approved assumption; do not choose values to improve validation metrics."
+      },
+      {
+        "name": "variant_or_period_set",
+        "purpose": "Represent a source-supported change across COVID variants or historical periods when applicability differs.",
+        "values": {"incubation_period_days": 3.42, "sigma_per_day": 0.29239766081871343, "infectious_recovery_period_days": 5.16, "gamma_per_day": 0.19379844961240308, "ifr_probability": 0.0066, "mu_per_day": 0.001287567714356614},
+        "selection_rule": "Use only where the source explicitly supports the variant/period distinction and document transferability limits."
+      }
+    ],
+    "comparison_plan": [
+      "Record source and applicability for every set.",
+      "Derive sigma and gamma mathematically within each set.",
+      "Define the mortality mapping to mu before calculating beta.",
+      "Use the same chronological calibration and validation design for comparable sets.",
+      "Report parameter sensitivity separately from model performance; do not select a set solely because it improves metrics.",
+      "Reject any set with missing evidence, inconsistent units, negative rates, or unsupported mortality interpretation."
+    ]
+  },
+  "pre_simulation_gate": {
+    "incubation": "READY",
+    "sigma": "READY",
+    "infectious_period": "READY WITH EXPLICIT OPERATIONAL ASSUMPTION",
+    "gamma": "READY",
+    "mortality_parameter": "READY WITH EXPLICIT COMPETING-HAZARD ASSUMPTION",
+    "beta_method": "READY METHOD / NUMERIC BETA CONDITIONAL ON Rt",
+    "seird_execution": "MECHANICAL UK REPLAY RUN; CALIBRATION NOT AUTHORIZED WITHOUT AN IDENTIFIABLE OBSERVATION MODEL"
+  }
+}

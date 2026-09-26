@@ -1,0 +1,120 @@
+{
+  "status": "MOBILITY COUPLING DESIGN: READY",
+  "scope": {
+    "stage": "Mobility Coupling Mathematical Design and Structural Validation",
+    "simulation_executed": false,
+    "passenger_volumes_fabricated": false,
+    "external_mobility_data_used": false,
+    "intervention_coefficients_introduced": false,
+    "seird_coupled_simulation_run": false
+  },
+  "mobility_matrix": {
+    "file": "country_route_matrix_normalized.csv",
+    "total_directed_edges": 4558,
+    "source_countries_count": 225,
+    "destination_countries_count": 224,
+    "row_stochasticity_verified": true,
+    "row_sum_min": 0.9999999999999934,
+    "row_sum_max": 1.0,
+    "asymmetric_directed_edges": 4550,
+    "symmetric_directed_edges": 8,
+    "asymmetry_percentage": 99.82448442299254,
+    "directionality_preserved": true,
+    "definition": "P_ij = C_ij / sum_k C_ik, where C_ij is international route count from i to j.",
+    "interpretation": "Conditional probability of flight destination choice given an international flight departure from country i. Represents relative topological network connectivity proxy, NOT passenger volume."
+  },
+  "isolated_countries": {
+    "count": 12,
+    "list": [
+      "Antarctica",
+      "British Indian Ocean Territory",
+      "Johnston Atoll",
+      "Midway Islands",
+      "Montserrat",
+      "Myanmar",
+      "Palestine",
+      "Saint Helena",
+      "Svalbard",
+      "Syria",
+      "Wake Island",
+      "West Bank"
+    ],
+    "treatment": "Retained in country-level SEIRD. International incoming coupling set to zero (Psi_m = 0, alpha_m = 0). System evolves strictly under single-country internal SEIRD mechanics."
+  },
+  "population_handling": {
+    "source_prevalence": "rho_i(t) = I_i(t) / N_i(t)",
+    "justification": "Ensures country population scale is preserved. A large country with few infections has low prevalence; a small country with many infections has high prevalence. Absolute route count does not artificially dominate."
+  },
+  "mass_conservation": {
+    "individual_country": "d/dt (S_j + E_j + I_j + R_j + D_j) = 0 for all j",
+    "global_metapopulation": "d/dt sum_j N_j = 0",
+    "mechanism": "Force-of-infection hazard coupling does not physically relocate individuals between country compartments. No individuals are created or destroyed."
+  },
+  "no_double_counting": {
+    "convex_combination": "lambda_j(t) = beta_j(t) * [ (1 - alpha_j)*(I_j/N_j) + alpha_j * Psi_j(t) ]",
+    "weights_sum": "(1 - alpha_j) + alpha_j = 1.0",
+    "entry_point": "Imported exposure enters exclusively through susceptible exposure (S_j -> E_j). No parallel compartment injection."
+  },
+  "formulations_comparison": {
+    "Formulation_A": {
+      "name": "Imported-Infection Pressure Model (Hazard Coupling)",
+      "governing_equation": "dS_j/dt = - lambda_j S_j, lambda_j = beta_j * [ (1 - alpha_j)*(I_j/N_j) + alpha_j * Psi_j ]",
+      "required_inputs": [
+        "P_ij (approved)",
+        "N_i (approved)",
+        "beta_j(t) (approved SEIRD)",
+        "alpha_j (coupling parameter in [0, 1))"
+      ],
+      "assumptions": [
+        "Cross-border travel introduces exposure risk rather than permanent population migration.",
+        "Infectious hazard scales with source prevalence I_i / N_i.",
+        "Local and international exposures partition total daily contact budget."
+      ],
+      "advantages": [
+        "Does not require unobserved passenger volumes or trip durations.",
+        "Guarantees exact country-level and global mass conservation.",
+        "Smoothly integrates with existing ODE framework.",
+        "Reduces exactly to single-country SEIRD when alpha_j = 0."
+      ],
+      "limitations": [
+        "Does not model physical quarantine of individual returning travelers.",
+        "Coupling parameter alpha must be calibrated or assessed via sensitivity analysis."
+      ],
+      "implementation_status": "READY"
+    },
+    "Formulation_B": {
+      "name": "Explicit Metapopulation Movement Model (Population Flux ODEs)",
+      "governing_equation": "dX_j/dt = SEIRD_j(X_j) + sum_{i!=j} Phi_{ij}^X - sum_{k!=j} Phi_{jk}^X",
+      "required_inputs": [
+        "P_ij (approved)",
+        "V_ij passenger volume per day (UNAVAILABLE)",
+        "theta_i daily per-capita travel rate (UNAVAILABLE)",
+        "tau trip duration / return rate (UNAVAILABLE)"
+      ],
+      "assumptions": [
+        "Individuals physically relocate between countries across all active compartments.",
+        "Travel frequency and passenger volumes are known."
+      ],
+      "advantages": [
+        "Tracks actual geographic movement of infected individuals."
+      ],
+      "limitations": [
+        "Requires unobserved passenger volume data.",
+        "Requires unobserved return migration rates.",
+        "Distorts country population baselines without return dynamics."
+      ],
+      "implementation_status": "BLOCKED - REQUIRED INPUT NOT AVAILABLE"
+    }
+  },
+  "parameter_availability": {
+    "route_connectivity_matrix_P_ij": "AVAILABLE (country_route_matrix_normalized.csv)",
+    "country_populations_N_i": "AVAILABLE (owid_covid_processed.csv)",
+    "seird_compartments_and_parameters": "AVAILABLE (single-country mechanics v2)",
+    "passenger_volumes_V_ij": "BLOCKED - REQUIRED INPUT NOT AVAILABLE",
+    "daily_mobility_rate_theta_i": "BLOCKED - REQUIRED INPUT NOT AVAILABLE",
+    "trip_duration_tau": "BLOCKED - REQUIRED INPUT NOT AVAILABLE",
+    "coupling_parameter_alpha": "FORMAL COUPLING PARAMETER [0, 1) \u2014 BOUNDED HYPERPARAMETER (NOT TO BE INVENTED ARBITRARILY)"
+  },
+  "recommendation": "Adopt Formulation A (Imported-Infection Pressure Model). Formulation B cannot be implemented without fabricating passenger volume and travel flux data.",
+  "final_status": "MOBILITY COUPLING DESIGN: READY"
+}

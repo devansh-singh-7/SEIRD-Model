@@ -1,0 +1,96 @@
+{
+  "status": "COUPLED SEIRD STATUS: GO",
+  "scope": {
+    "simulation_period": "2020-01-22 to 2020-12-31",
+    "days_simulated": 345,
+    "modeled_countries_count": 217,
+    "connected_countries_count": 212,
+    "isolated_countries_count": 5,
+    "global_population_represented": 7895110975,
+    "scenarios_evaluated": [
+      "SCEN_0_DECOUPLED",
+      "SCEN_1_LOW_COUPLING",
+      "SCEN_2_MODERATE_COUPLING",
+      "SCEN_3_HIGH_COUPLING"
+    ]
+  },
+  "initial_seeding_strategy": {
+    "start_date": "2020-01-22",
+    "seed_countries_count": 7,
+    "seed_countries": [
+      "China",
+      "Germany",
+      "Japan",
+      "South Korea",
+      "Spain",
+      "Thailand",
+      "United States"
+    ],
+    "unseeded_initial_countries_count": 210,
+    "seeding_principle": "Seeded strictly using OWID confirmed cases on or before 2020-01-22. Zero future observations used; zero synthetic seeding applied to initially uninfected countries."
+  },
+  "mechanical_validation_checks": {
+    "nonnegative_compartments": "PASS",
+    "population_accounting": "PASS",
+    "max_population_accounting_error": 5.4836273193359375e-06,
+    "deaths_nondecreasing": "PASS",
+    "recovered_nondecreasing": "PASS",
+    "no_spontaneous_infection": "PASS",
+    "numerical_stability": "PASS",
+    "isolated_countries_zero_alpha": "PASS",
+    "decoupled_scenario_zero_spread": "PASS",
+    "alpha_sensitivity_monotonicity": "PASS"
+  },
+  "scenario_comparison_summary": [
+    {
+      "scenario": "SCEN_0_DECOUPLED",
+      "alpha": 0.0,
+      "countries_reached": 7,
+      "global_cumulative_infections": 16899.577735602856,
+      "global_cumulative_deaths": 126.92769310431689,
+      "global_peak_infectious": 1123.0727793949363,
+      "global_peak_date": "2020-02-20",
+      "mean_time_to_first_infection_days": 0.0,
+      "median_time_to_first_infection_days": 0.0,
+      "mean_imported_infectious_pressure": 1.545668582559883e-08
+    },
+    {
+      "scenario": "SCEN_1_LOW_COUPLING",
+      "alpha": 0.001,
+      "countries_reached": 8,
+      "global_cumulative_infections": 16928.15359769883,
+      "global_cumulative_deaths": 127.1204847856048,
+      "global_peak_infectious": 1120.4123204763716,
+      "global_peak_date": "2020-02-20",
+      "mean_time_to_first_infection_days": 10.75,
+      "median_time_to_first_infection_days": 0.0,
+      "mean_imported_infectious_pressure": 1.5827019561578952e-08
+    },
+    {
+      "scenario": "SCEN_2_MODERATE_COUPLING",
+      "alpha": 0.01,
+      "countries_reached": 26,
+      "global_cumulative_infections": 17414.872918546745,
+      "global_cumulative_deaths": 129.9286903579272,
+      "global_peak_infectious": 1096.7476801144217,
+      "global_peak_date": "2020-02-20",
+      "mean_time_to_first_infection_days": 75.34615384615384,
+      "median_time_to_first_infection_days": 74.0,
+      "mean_imported_infectious_pressure": 1.9537306670365095e-08
+    },
+    {
+      "scenario": "SCEN_3_HIGH_COUPLING",
+      "alpha": 0.05,
+      "countries_reached": 54,
+      "global_cumulative_infections": 21329.44363070313,
+      "global_cumulative_deaths": 151.3194865472437,
+      "global_peak_infectious": 997.456115323783,
+      "global_peak_date": "2020-02-20",
+      "mean_time_to_first_infection_days": 78.4074074074074,
+      "median_time_to_first_infection_days": 69.5,
+      "mean_imported_infectious_pressure": 3.7420565978976466e-08
+    }
+  ],
+  "interpretation_guardrail": "alpha is an operational sensitivity parameter representing relative international coupling strength. It does NOT represent measured real-world passenger movements.",
+  "execution_time_seconds": 18.36428451538086
+}
